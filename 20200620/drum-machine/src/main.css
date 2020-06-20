@@ -1,0 +1,41 @@
+#drum-machine {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  border-radius: 5px;
+  background-color: #3f3f3f;
+  padding: 3rem 1.5rem;
+}
+
+#display {
+  border-radius: 5px;
+  background-color: #202020;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  text-transform: uppercase;
+  color: #35cac5;
+  font-size: 200%;
+  font-weight: 700;
+}
+
+#control-bar {
+  margin-top: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.drum-pad {
+  transition: all .3s;
+  margin-bottom: .5rem;
+  border-radius: 5px;
+  background-color: #202020;
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: #aaa;
+}
+
+.drum-pad:hover {
+  cursor: pointer;
+}
+
+.drum-pad:active {
+    background-color: #35cac5;
+}
