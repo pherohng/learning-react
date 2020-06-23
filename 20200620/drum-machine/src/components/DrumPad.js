@@ -11,6 +11,8 @@ export class DrumPad extends React.Component {
     let drumPad = this.props.drumPad;
 
     this.props.onUpdateDisplay(drumPad.description);
+    this.props.onCollectSounds(drumPad.key);
+
     document.querySelector(`#${drumPad.key}`).play();
   }
 

@@ -7,10 +7,15 @@ export class DrumPads extends React.Component {
     super(props);
 
     this.updateDisplay = this.updateDisplay.bind(this);
+    this.collectSounds = this.collectSounds.bind(this);
   }
 
   updateDisplay(text) {
     this.props.onUpdateDisplay(text);
+  }
+
+  collectSounds(drumPadKey) {
+    this.props.onCollectSounds(drumPadKey);
   }
 
   render() {
@@ -21,7 +26,8 @@ export class DrumPads extends React.Component {
             {
               this.props.drumPads.map(drumPad => {
                 return (
-                  <DrumPad key={drumPad.id} drumPad={drumPad} onUpdateDisplay={this.updateDisplay} />
+                  <DrumPad key={drumPad.id} drumPad={drumPad}
+                    onUpdateDisplay={this.updateDisplay} onCollectSounds={this.collectSounds} />
                 );
               })
             }
