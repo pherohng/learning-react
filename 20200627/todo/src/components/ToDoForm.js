@@ -14,7 +14,8 @@ export class ToDoForm extends Component {
     this.props.onFilterToDos(e.target.value);
   }
 
-  addToDo() {
+  addToDo(e) {
+    e.preventDefault();
     this.props.onAddToDo(this.toDoInputRef.current.value);
   }
 

@@ -22,7 +22,10 @@ export class ToDoList extends Component {
       <div className="todo-container">
         <ul className="todo-list">
           {
-            this.props.todos.map(todo => (<ToDoItem key={todo.id} todo={todo} onToggleStatus={this.toggleStatus} onRemoveToDo={this.removeToDo} />))
+            this.props.todos.map(todo => (
+              <ToDoItem key={todo.id} todo={todo}
+                onToggleStatus={this.toggleStatus} onRemoveToDo={this.removeToDo} />
+            ))
           }
         </ul>
       </div>

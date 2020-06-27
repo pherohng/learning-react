@@ -7,7 +7,8 @@ export class ToDoApp extends Component {
     super(props);
 
     this.state = {
-      todos: this.getToDos()
+      todos: this.getToDos(),
+      filterCriteria: 'all'
     };
 
     this.filterToDos = this.filterToDos.bind(this);
@@ -16,22 +17,20 @@ export class ToDoApp extends Component {
     this.removeToDo = this.removeToDo.bind(this);
   }
 
-  filterToDos(status) {
-    let todos = this.getToDos();
-
-    if (status !== 'all') {
-      todos = todos.filter(todo => todo.status === status);
-    }
-
-    this.setState({ todos });
+  filterToDos(filterCriteria) {
+    this.setState({ filterCriteria });
   }
 
   addToDo(description) {
     let todos = this.getToDos();
-    todos.push({ id: this.getNextId(todos), description, status: 'uncompleted' });
 
-    localStorage.setItem("todos", JSON.stringify(todos));
-    this.setState({ todos: this.getToDos() });
+    todos.push({
+      id: this.getNextId(todos),
+      description,
+      status: 'uncompleted'
+    });
+
+    this.saveToDos(todos);
   }
 
   toggleStatus(id) {
@@ -41,8 +40,7 @@ export class ToDoApp extends Component {
     if (todo != null) {
       todo.status = todo.status === 'completed' ? 'uncompleted' : 'completed';
 
-      localStorage.setItem("todos", JSON.stringify(todos));
-      this.setState({ todos: this.getToDos() });
+      this.saveToDos(todos);
     }
   }
 
@@ -54,12 +52,18 @@ export class ToDoApp extends Component {
       let idx = todos.indexOf(todo);
       todos.splice(idx, 1);
 
-      localStorage.setItem("todos", JSON.stringify(todos));
-      this.setState({ todos: this.getToDos() });
+      this.saveToDos(todos);
     }
   }
 
   render() {
+    let todos = this.state.todos;
+    let criteria = this.state.filterCriteria;
+
+    if (criteria !== 'all') {
+      todos = todos.filter(todo => todo.status === criteria);
+    }
+
     return (
       <>
         <header>
@@ -68,7 +72,8 @@ export class ToDoApp extends Component {
 
         <ToDoForm onFilterToDos={this.filterToDos} onAddToDo={this.addToDo} />
 
-        <ToDoList todos={this.state.todos} onToggleStatus={this.toggleStatus} onRemoveToDo={this.removeToDo} />
+        <ToDoList todos={todos}
+          onToggleStatus={this.toggleStatus} onRemoveToDo={this.removeToDo} />
       </>
     );
   }
@@ -83,16 +88,14 @@ export class ToDoApp extends Component {
     return Math.max(...ids) + 1;
   }
 
+  saveToDos(todos) {
+    localStorage.setItem("todos", JSON.stringify(todos));
+    this.setState({ todos: this.getToDos() });
+  }
+
   getToDos() {
-    let todos;
+    let todos = JSON.parse(localStorage.getItem("todos"));
 
-    // if it HAS already an item, get it
-    if (localStorage.getItem("todos") !== null) {
-      todos = JSON.parse(localStorage.getItem("todos"));
-    } else {
-      todos = [];
-    }
-
-    return todos;
+    return todos || [];
   }
 }

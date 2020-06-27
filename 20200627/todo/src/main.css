@@ -143,7 +143,6 @@ select {
     padding: 1rem;
 }
 
-
 .select {
     margin: 1rem;
     position: relative;
@@ -165,7 +164,6 @@ select {
     background-color: white;
     color: rgba(74, 21, 110, 1);
 }
-
 
 .completed{
     opacity: 0.5;
