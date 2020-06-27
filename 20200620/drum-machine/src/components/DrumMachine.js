@@ -49,11 +49,16 @@ export class DrumMachine extends React.Component {
   }
 
   play() {
+    let interval = 1000;
+    let increment = 1;
+
     this.state.sounds.forEach(drumPadKey => {
       setTimeout(() => {
         let audio = document.querySelector(`#${drumPadKey}`);
         audio.play();
-      }, 1000);
+      }, interval * increment);
+
+      increment++;
     });
   }
 
