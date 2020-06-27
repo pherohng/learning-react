@@ -4,6 +4,12 @@ export class ToDoItem extends Component {
   constructor(props) {
     super(props);
 
+    this.toDoRef = React.createRef();
+
+    this.state = {
+      markForDelete: false
+    };
+
     this.toggleStatus = this.toggleStatus.bind(this);
     this.removeToDo = this.removeToDo.bind(this);
   }
@@ -13,14 +19,18 @@ export class ToDoItem extends Component {
   }
 
   removeToDo() {
-    this.props.onRemoveToDo(this.props.todo.id);
+    this.setState({ markForDelete: true });
+    this.toDoRef.current.addEventListener('animationend', () => {
+      this.props.onRemoveToDo(this.props.todo.id);
+    });
   }
 
   render() {
     let todo = this.props.todo;
+    let classes = `todo ${todo.status === 'completed' ? 'completed' : ''} ${this.state.markForDelete ? 'fall' : ''}`;
 
     return (
-      <div className={`todo ${todo.status === 'completed' ? 'completed' : ''}`} style={{ display: 'flex' }}>
+      <div ref={this.toDoRef} className={classes} style={{ display: 'flex' }}>
         <li className="todo-item">
           {todo.description}
         </li>
