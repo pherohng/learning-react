@@ -1,0 +1,98 @@
+import React, { Component } from 'react';
+import { ToDoForm } from './ToDoForm';
+import { ToDoList } from './ToDoList';
+
+export class ToDoApp extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      todos: this.getToDos()
+    };
+
+    this.filterToDos = this.filterToDos.bind(this);
+    this.addToDo = this.addToDo.bind(this);
+    this.toggleStatus = this.toggleStatus.bind(this);
+    this.removeToDo = this.removeToDo.bind(this);
+  }
+
+  filterToDos(status) {
+    let todos = this.getToDos();
+
+    if (status !== 'all') {
+      todos = todos.filter(todo => todo.status === status);
+    }
+
+    this.setState({ todos });
+  }
+
+  addToDo(description) {
+    let todos = this.getToDos();
+    todos.push({ id: this.getNextId(todos), description, status: 'uncompleted' });
+
+    localStorage.setItem("todos", JSON.stringify(todos));
+    this.setState({ todos: this.getToDos() });
+  }
+
+  toggleStatus(id) {
+    let todos = this.getToDos();
+    let todo = todos.find(td => td.id === id);
+
+    if (todo != null) {
+      todo.status = todo.status === 'completed' ? 'uncompleted' : 'completed';
+
+      localStorage.setItem("todos", JSON.stringify(todos));
+      this.setState({ todos: this.getToDos() });
+    }
+  }
+
+  removeToDo(id) {
+    let todos = this.getToDos();
+    let todo = todos.find(td => td.id === id);
+
+    if (todo != null) {
+      let idx = todos.indexOf(todo);
+      todos.splice(idx, 1);
+
+      localStorage.setItem("todos", JSON.stringify(todos));
+      this.setState({ todos: this.getToDos() });
+    }
+  }
+
+  render() {
+    return (
+      <>
+        <header>
+          <h1>Todo App</h1>
+        </header>
+
+        <ToDoForm onFilterToDos={this.filterToDos} onAddToDo={this.addToDo} />
+
+        <ToDoList todos={this.state.todos} onToggleStatus={this.toggleStatus} onRemoveToDo={this.removeToDo} />
+      </>
+    );
+  }
+
+  getNextId(todos) {
+    if (todos.length === 0) {
+      return 1;
+    }
+
+    let ids = todos.map(todo => todo.id);
+
+    return Math.max(...ids) + 1;
+  }
+
+  getToDos() {
+    let todos;
+
+    // if it HAS already an item, get it
+    if (localStorage.getItem("todos") !== null) {
+      todos = JSON.parse(localStorage.getItem("todos"));
+    } else {
+      todos = [];
+    }
+
+    return todos;
+  }
+}
