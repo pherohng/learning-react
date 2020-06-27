@@ -16,7 +16,12 @@ export class ToDoForm extends Component {
 
   addToDo(e) {
     e.preventDefault();
-    this.props.onAddToDo(this.toDoInputRef.current.value);
+
+    let description = this.toDoInputRef.current.value.trim();
+
+    if (description) {
+      this.props.onAddToDo(this.toDoInputRef.current.value);
+    }
   }
 
   render() {
