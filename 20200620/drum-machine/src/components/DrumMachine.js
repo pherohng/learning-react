@@ -77,7 +77,7 @@ export class DrumMachine extends React.Component {
             <ControlBar soundCount={this.state.sounds.length} volume={this.state.volume}
               onChangeVolume={this.changeVolume} onChangeBank={this.changeBank}
               onPlay={this.play} onReset={this.reset} />
-            <DrumPads drumPads={BANKS[this.state.bankIndex]}
+            <DrumPads drumPads={BANKS[this.state.bankIndex]} volume={this.state.volume / 100}
               onUpdateDisplay={this.updateDisplay} onCollectSounds={this.collectSounds} />
           </div>
         </main>

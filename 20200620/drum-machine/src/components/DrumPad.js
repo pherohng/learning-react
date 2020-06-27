@@ -22,7 +22,7 @@ export class DrumPad extends React.Component {
     return (
       <div className='col'>
         <div id={drumPad.id} className='drum-pad' onClick={this.click}>
-          <audio id={drumPad.key} src={drumPad.soundUrl} className='clip' />
+          <audio id={drumPad.key} src={drumPad.soundUrl} volume={this.props.volume} className='clip' />
           {drumPad.key}
         </div>
       </div>
