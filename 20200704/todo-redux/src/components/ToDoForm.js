@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 
+import FilterCriteria from '../store/constants/filter-criteria';
+
 export class ToDoForm extends Component {
   constructor(props) {
     super(props);
 
     this.toDoInputRef = React.createRef();
 
-    this.filterToDos = this.filterToDos.bind(this);
     this.addToDo = this.addToDo.bind(this);
-  }
-
-  filterToDos(e) {
-    this.props.onFilterToDos(e.target.value);
+    this.filterToDos = this.filterToDos.bind(this);
   }
 
   addToDo(e) {
@@ -21,7 +19,12 @@ export class ToDoForm extends Component {
 
     if (description) {
       this.props.onAddToDo(this.toDoInputRef.current.value);
+      this.toDoInputRef.current.value = '';
     }
+  }
+
+  filterToDos(e) {
+    this.props.onFilterToDos(e.target.value);
   }
 
   render() {
@@ -34,9 +37,9 @@ export class ToDoForm extends Component {
 
         <div className="select" onChange={this.filterToDos}>
           <select name="todos" className="filter-todo">
-            <option value="all">All</option>
-            <option value="completed">Completed</option>
-            <option value="uncompleted">Uncompleted</option>
+            <option value={FilterCriteria.ALL}>All</option>
+            <option value={FilterCriteria.COMPLETED}>Completed</option>
+            <option value={FilterCriteria.UNCOMPLETED}>Uncompleted</option>
           </select>
         </div>
       </form>
