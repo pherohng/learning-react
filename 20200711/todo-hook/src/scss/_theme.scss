@@ -1,0 +1,5 @@
+@each $c, $v in $theme-colors {
+  main[theme="#{$c}"] {
+    background: #{$v};
+  }
+}
